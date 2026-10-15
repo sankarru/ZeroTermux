@@ -189,6 +189,15 @@
             <intent-filter>
                 <action android:name="com.termux.termcore.activity.edittextactivity" />
 
+                <!-- Legacy action still hardcoded by the prebuilt app/libs/z_file.aar.
+                     The source was renamed zerocore -> termcore, but that AAR is a
+                     closed third-party dependency and was never rebuilt, so it still
+                     starts this activity by the old action. Without this alias the
+                     "open with Termux editor" path dies with
+                     ActivityNotFoundException. The extras contract (edit_path) is
+                     unchanged, so the same filter can serve both actions. -->
+                <action android:name="com.termux.zerocore.activity.edittextactivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
