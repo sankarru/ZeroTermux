@@ -39,3 +39,14 @@ QWEN.md
 .swp
 ehthumbs.db
 Thumbs.db
+
+# acs build artifacts (workspace.json is the source of truth and IS tracked;
+# acs regenerates the per-module module.toml from it)
+/.acs-local-m2/
+/.platform/
+/.ca-cache/
+**/module.toml
+cabuild.toml
+acs-repositories.json
+javacore.*.txt
+Snap.*.trc
