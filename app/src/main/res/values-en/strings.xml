@@ -1137,7 +1137,7 @@ Reset successfully</string>
     <string name="zt_nav_page_deepseek_settings">DeepSeek settings</string>
     <string name="zt_nav_page_deepseek_key">DeepSeek Key</string>
     <string name="zt_nav_page_llm_settings">Custom LLM settings</string>
-    <string name="zt_nav_page_termux_settings">Termux native settings</string>
+    <string name="zt_nav_page_termux_native_settings">Termux native settings</string>
     <string name="zt_nav_page_zt_about">About Termux</string>
     <string name="zt_nav_page_zt_install">Install Termux packages</string>
     <string name="zt_nav_page_zt_online_server">Online server</string>

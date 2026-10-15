@@ -136,7 +136,7 @@ object ZtPageNavigationRegistry {
         PageEntry("deepseek_settings", R.string.zt_nav_page_deepseek_settings, TermuxDeepSeekSettingsActivity::class.java),
         PageEntry("deepseek_key", R.string.zt_nav_page_deepseek_key, TermuxDeepSeekKeyActivity::class.java),
         PageEntry("llm_settings", R.string.zt_nav_page_llm_settings, TermuxLLMSettingsActivity::class.java),
-        PageEntry("termux_settings", R.string.zt_nav_page_termux_settings, SettingsActivity::class.java),
+        PageEntry("termux_native_settings", R.string.zt_nav_page_termux_native_settings, SettingsActivity::class.java),
         PageEntry("zt_about", R.string.zt_nav_page_zt_about, ZTAboutActivity::class.java),
         PageEntry("zt_install", R.string.zt_nav_page_zt_install, ZTInstallActivity::class.java),
         PageEntry("zt_online_server", R.string.zt_nav_page_zt_online_server, ZTOnlineServerActivity::class.java),
