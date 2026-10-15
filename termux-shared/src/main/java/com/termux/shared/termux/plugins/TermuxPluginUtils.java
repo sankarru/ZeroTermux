@@ -401,8 +401,16 @@ public class TermuxPluginUtils {
 
         // Send the notification
         NotificationManager notificationManager = NotificationUtils.getNotificationManager(termuxPackageContext);
-        if (notificationManager != null)
-            notificationManager.notify(nextNotificationId, builder.build());
+        if (notificationManager != null) {
+            // A failed notification must never take down the caller (RunCommandService dies with
+            // an uncaught exception here). Plugins start us with an attribution tag we strip in
+            // NotificationUtils.getNotificationManager(), but guard regardless.
+            try {
+                notificationManager.notify(nextNotificationId, builder.build());
+            } catch (Exception e) {
+                Logger.logStackTraceWithMessage(LOG_TAG, "Failed to post plugin command error notification", e);
+            }
+        }
     }
 
     /**

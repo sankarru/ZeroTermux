@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.termux.shared.logger.Logger;
@@ -43,7 +44,37 @@ public class NotificationUtils {
     @Nullable
     public static NotificationManager getNotificationManager(final Context context) {
         if (context == null) return null;
-        return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        return (NotificationManager) withoutAttributionTag(context).getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
+    /**
+     * Strip any attribution tag inherited from another app before posting.
+     *
+     * On Android 14+ (API 34) a service started by another app inherits that app's
+     * attribution tag, and {@link Context#createPackageContext} propagates it. The
+     * {@link NotificationManager} then forwards the tag to
+     * {@code enqueueNotificationWithTag()}, and the system requires the attribution
+     * package to belong to the calling uid -- otherwise the post fails with
+     * {@code SecurityException: Package X does not belong to <uid>} and takes down
+     * whatever component tried to show it.
+     *
+     * Termux plugin apps ({@code com.termux.styling}, {@code com.termux:API}, ...)
+     * start {@code RunCommandService}, so any Termux notification triggered on their
+     * behalf hits this. Stripping the tag attributes the notification to Termux
+     * itself, which is what we want anyway.
+     *
+     * @param context The context which may carry a foreign attribution tag.
+     * @return A context with no attribution tag, or the original one below API 34.
+     */
+    @NonNull
+    public static Context withoutAttributionTag(@NonNull final Context context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) return context;
+        try {
+            return context.createAttributionContext(null);
+        } catch (Exception e) {
+            Logger.logStackTraceWithMessage(LOG_TAG, "Failed to clear attribution tag for \"" + context.getPackageName() + "\"", e);
+            return context;
+        }
     }
 
     /**
